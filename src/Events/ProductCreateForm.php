@@ -21,7 +21,7 @@ class ProductCreateForm
       array_splice($form, $keyToReplace, 1, [
          Select::make('contractor_id')->options(Contractor::query()->pluck('name', 'id')->toArray())->required()->default(Contractor::query()->first()->id)->live()->afterStateUpdated(function ($get, $set) {
             $contractor = Contractor::query()->find($get('contractor_id'));
-            if (!$contractor) {
+            if (!$contractor || !$get('origin_price')) {
                $set('price', 0);
                $set('origin_price', 0);
                return;
