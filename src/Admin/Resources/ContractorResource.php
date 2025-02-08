@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use SmartCms\Core\Models\Translate;
 use SmartCms\Core\Services\Schema;
 use SmartCms\Core\Services\TableSchema;
@@ -38,6 +39,11 @@ class ContractorResource extends Resource
     public static function getModelLabel(): string
     {
         return "Contractor";
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return Contractor::query()->count() > 1;
     }
 
     public static function getPluralModelLabel(): string
@@ -76,11 +82,7 @@ class ContractorResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

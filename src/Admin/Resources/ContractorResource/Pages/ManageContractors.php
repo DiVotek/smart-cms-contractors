@@ -14,14 +14,13 @@ class ManageContractors extends ManageRecords
    protected function getHeaderActions(): array
    {
       return [
-         Actions\Action::make(_hints('help'))
-            ->iconButton()
-            ->icon('heroicon-o-question-mark-circle')
-            ->modalDescription(__('Contractors are used to calculate the price of the product'))
-            ->modalFooterActions([]),
-         Actions\Action::make('settings')->icon('heroicon-o-cog-6-tooth')->form([
-            Toggle::make('enabled')->default(setting('contractor.enabled', true)),
-         ])
+         Actions\Action::make('help')
+            ->help(__('Contractors are used to calculate the price of the product')),
+         Actions\Action::make('settings')
+            ->settings()
+            ->form([
+               Toggle::make('enabled')->default(setting('contractor.enabled', true)),
+            ])
             ->fillForm(function () {
                return [
                   'enabled' => setting('contractor.enabled', true),
@@ -31,7 +30,7 @@ class ManageContractors extends ManageRecords
                   'contractor.enabled' => $data['enabled'],
                ]);
             }),
-         Actions\CreateAction::make(),
+         Actions\CreateAction::make()->create(),
       ];
    }
 }
